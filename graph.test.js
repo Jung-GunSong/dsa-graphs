@@ -307,5 +307,27 @@ describe("distanceOfShortestPath", function () {
     expect(graph.distanceOfShortestPath(t, r)).toBe(1);
     expect(graph.distanceOfShortestPath(t, m)).toBe(2);
     expect(graph.distanceOfShortestPath(t, "rogue node")).toBe(undefined);
+
+    let graph2 = new Graph();
+
+    let a = new Node("a");
+    let b = new Node("b");
+    let c = new Node("c");
+    let d = new Node("d");
+    let e = new Node("e");
+    let f = new Node("f");
+
+    graph.addNodes([a,b,c,d,e]);
+
+    graph2.addEdge(a, b);
+    graph2.addEdge(a, c);
+    graph2.addEdge(c, d);
+    graph2.addEdge(d, e);
+    // graph.addEdge(a, e);
+    graph2.addEdge(e, f);
+
+    expect(graph2.distanceOfShortestPath(a, e)).toBe(3);
+    expect(graph2.distanceOfShortestPath(a, f)).toBe(4);
+
   });
 });

@@ -71,11 +71,62 @@ class Graph {
 
   /** traverse graph with BDS and returns array of Node values */
   breadthFirstSearch(start) {
+    let queue = [start];
+    let visitedSet = new Set(start.value);
+
+    while (queue.length){
+      let current = queue.shift();
+
+      for (let adjNode of current.adjacent){
+        if (!visitedSet.has(adjNode.value)){
+          queue.push(adjNode);
+          visitedSet.add(adjNode.value);
+        }
+      }
+    }
+    console.log(`we are about to return`);
+    let array = Array.from(visitedSet);
+    console.log(array);
+      return Array.from(visitedSet);
 
   }
 
   /** find the distance of the shortest path from the start node to the end node */
-  distanceOfShortestPath(start, end) { }
+  distanceOfShortestPath(start, end) {
+    //begin count at 0
+    //if start === end => return count
+    //otherwise, BFS with start.adjacent
+    //if (end in start.adjacent) => return count+1
+    //else add neighbors to queue, add current to visistedSet, counter ++
+    let counter = 0;
+    let queue = [start];
+    let visitedSet = new Set(queue);
+    let found = false;
+
+    while(queue.length){
+      let current = queue.shift();
+
+      if(current.value === end.value){
+        return counter;
+      }
+      let oldLength = queue.length;
+      console.log("current is: ", current);
+      console.log('current.adjacent is: ', current.adjacent);
+      for (let adjNode of current.adjacent){
+        if (!visitedSet.has(adjNode)){
+          queue.push(adjNode);
+          visitedSet.add(adjNode);
+        }
+      }
+      if (oldLength !== queue.length){
+        counter++;
+      }
+    }
+
+    return;
+
+
+  }
 }
 
 module.exports = { Graph, Node }
