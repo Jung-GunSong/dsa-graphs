@@ -5,6 +5,52 @@ class Node {
     this.value = value;
     this.adjacent = adjacent;
   }
+
+  minDepth(end, seen){
+
+    let values = []
+
+    // if (this.adjacent.size === 0 && this !== end){
+    //   return 0;
+    // }
+
+    // if (this.adjacent.size === 0 && this === end){
+    //   return 1;
+    // }
+
+
+    // for (let graphNode of this.adjacent){
+    //   if( graphNode.minDepth(end) === 0){
+    //     return graphNode.minDepth(end);
+    //   }else{
+    //     return 1 + graphNode.minDepth(end);
+    //   }
+    // }
+    if(this.adjacent.size > 0){
+
+      for (let graphNode of this.adjacent){
+        // if (graphNode.adjacent.size !== 0){
+          if (!seen.has(graphNode)){
+            seen.add(graphNode)
+            values.push(graphNode.minDepth(end, seen));
+          }
+
+        // }
+      }
+
+    }
+
+    if (this.adjacent.size === 0 && this.value !== end.value){
+        return 1;
+      }
+
+    if (this.adjacent.size === 0 && this.value === end.value){
+      return -1;
+    }
+
+    return Math.min(...values);
+
+  }
 }
 
 
@@ -98,33 +144,45 @@ class Graph {
     //otherwise, BFS with start.adjacent
     //if (end in start.adjacent) => return count+1
     //else add neighbors to queue, add current to visistedSet, counter ++
-    let counter = 0;
-    let queue = [start];
-    let visitedSet = new Set(queue);
-    let found = false;
+    // one set to see if a particular route has hit this node
+    //another set to keep track of paths taken
 
-    while(queue.length){
-      let current = queue.shift();
+  //   let counter = 0;
+  //   let queue = [start];
+  //   let visitedSet = new Set(queue);
+  //   let found = false;
 
-      if(current.value === end.value){
-        return counter;
-      }
-      let oldLength = queue.length;
-      console.log("current is: ", current);
-      console.log('current.adjacent is: ', current.adjacent);
-      for (let adjNode of current.adjacent){
-        if (!visitedSet.has(adjNode)){
-          queue.push(adjNode);
-          visitedSet.add(adjNode);
-        }
-      }
-      if (oldLength !== queue.length){
-        counter++;
-      }
-    }
+  //   while(queue.length){
+  //     let current = queue.shift();
+
+  //     if(current.value === end.value){
+  //       return counter;
+  //     }
+  //     let oldLength = queue.length;
+  //     console.log("current is: ", current);
+  //     console.log('current.adjacent is: ', current.adjacent);
+  //     for (let adjNode of current.adjacent){
+  //       if (!visitedSet.has(adjNode)){
+  //         // counter ++;
+  //         queue.push(adjNode);
+  //         visitedSet.add(adjNode);
+  //       }
+  //     }
+  //     if (oldLength !== queue.length){
+  //       counter++;
+  //     }
+  //   }
+
+  //   return;
+
+
+  // }
+    const initialSet = new Set([start]);
+
+    if (start.minDepth(end, initialSet) < 0) return Math.abs(start.minDepth(end, initialSet));
+    console.log(`our result is`, start.minDepth(end, initialSet) )
 
     return;
-
 
   }
 }
