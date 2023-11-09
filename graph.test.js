@@ -282,8 +282,8 @@ describe("distanceOfShortestPath", function () {
     //            R
     //         /  |  \
     //        I - T - H
-    //                |
-    //                M
+    //        |        |
+    //        z       M
     //
 
     let graph = new Graph();
@@ -293,6 +293,7 @@ describe("distanceOfShortestPath", function () {
     let t = new Node("T");
     let h = new Node("H");
     let m = new Node("M");
+    let z = new Node("Z");
 
     graph.addNodes([r, i, t, h, m]);
 
@@ -302,6 +303,7 @@ describe("distanceOfShortestPath", function () {
     graph.addEdge(i, t);
     graph.addEdge(t, h);
     graph.addEdge(h, m);
+    graph.addEdge(i, z);
 
     expect(graph.distanceOfShortestPath(r, m)).toBe(2);
     expect(graph.distanceOfShortestPath(t, r)).toBe(1);
