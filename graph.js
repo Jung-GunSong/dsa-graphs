@@ -177,14 +177,36 @@ class Graph {
 
 
   // }
-    const initialSet = new Set([start]);
+    // const initialSet = new Set([start]);
 
-    if (start.minDepth(end, initialSet) < 0) return Math.abs(start.minDepth(end, initialSet));
-    console.log(`our result is`, start.minDepth(end, initialSet) )
+    // if (start.minDepth(end, initialSet) < 0) return Math.abs(start.minDepth(end, initialSet));
+    // console.log(`our result is`, start.minDepth(end, initialSet) )
 
-    return;
+    // return;
 
-  }
+    let queue = [[start, 0]]
+    let visitedSet = new Set(queue);
+
+
+    while(queue.length){
+      let current = queue.shift();
+
+      if (current[0].value === end.value){
+        return current[1];
+      }
+
+      for (let adjNode of current[0].adjacent){
+        let newDistance = current[1] + 1;
+              if (!visitedSet.has(adjNode)){
+                queue.push([adjNode, newDistance]);
+                visitedSet.add(adjNode);
+              }
+            }
+      }
+
+      return;
+
+    }
 }
 
 module.exports = { Graph, Node }
